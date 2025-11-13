@@ -1,0 +1,5 @@
+src/components
+src/assets
+src/views/Admin.vue
+dist
+node_modules

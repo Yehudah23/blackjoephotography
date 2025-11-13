@@ -16,4 +16,10 @@
       "scripthost"
     ]
   }
+  ,
+  "exclude": [
+    "dist",
+    "node_modules",
+    "public"
+  ]
 }
