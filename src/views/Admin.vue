@@ -26,9 +26,9 @@
         <div class="upload-section mb-8 p-6 bg-white rounded-lg shadow">
           <h3 class="text-xl font-semibold mb-4">Upload New Media</h3>
           <div class="mb-3">
-            <label class="block text-sm mb-1">Category</label>
-            <select v-model="uploadCategory" class="input">
-              <option value="">Select category...</option>
+            <label class="block text-sm font-bold mb-2 text-blue-700">Category *</label>
+            <select v-model="uploadCategory" class="input category-select">
+              <option value="" disabled>Select category...</option>
               <option v-for="cat in uploadCategories" :key="cat" :value="cat">{{ cat }}</option>
             </select>
           </div>
@@ -500,8 +500,54 @@ export default {
 
 <style scoped>
 .admin-page { min-height: 100vh; padding-top: 120px; color: var(--text); }
-.input { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(37,99,235,0.3); border-radius: 0.5rem; background: rgba(255,255,255,0.9); color: #1e293b; }
+.input { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(37,99,235,0.3); border-radius: 0.5rem; background: rgba(255,255,255,0.9); color: #1e293b; font-size: 1rem; }
 .input-sm { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(37,99,235,0.3); border-radius: 0.375rem; background: rgba(255,255,255,0.9); color: #1e293b; font-size: 0.875rem; }
+
+.category-select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 3px solid #2563eb;
+  border-radius: 0.5rem;
+  background: white !important;
+  color: #000000 !important;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.category-select:hover {
+  border-color: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.category-select option {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: white !important;
+  color: #000000 !important;
+}
+
+.category-select option:disabled {
+  color: #9ca3af !important;
+  font-style: italic;
+}
+
+.category-select option:not(:disabled) {
+  color: #000000 !important;
+}
+
 .submit-btn { padding: 0.75rem 1.5rem; background: #2563eb; color: white; border-radius: 0.5rem; cursor: pointer; border: none; }
 .submit-btn.bg-gray-500 { background: #6b7280; }
 .btn-sm { padding: 0.375rem 0.75rem; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer; border: none; }

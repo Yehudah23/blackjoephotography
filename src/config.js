@@ -18,7 +18,8 @@ export const API_ENDPOINTS = {
   user: `${API_BASE_URL}/api/user`,
   adminLogin: `${API_BASE_URL}/api/admin/login`,
   adminLogout: `${API_BASE_URL}/api/admin/logout`,
-  csrfCookie: `${API_BASE_URL}/sanctum/csrf-cookie`
+  csrfCookie: `${API_BASE_URL}/sanctum/csrf-cookie`,
+  contact: `${API_BASE_URL}/api/contact`
 };
 
 export default API_CONFIG;

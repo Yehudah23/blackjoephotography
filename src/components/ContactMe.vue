@@ -20,8 +20,8 @@
               <input id="phone" type="tel" v-model="formData.phone" placeholder="(555) 123-4567" class="input" />
             </div>
             <div>
-              <label for="service">Service Type *</label>
-              <select id="service" required v-model="formData.service" class="input">
+              <label for="service" class="service-label">Service Type *</label>
+              <select id="service" required v-model="formData.service" class="input service-select">
                 <option value="" disabled>Select a service</option>
                 <option value="wedding">Wedding Photography</option>
                 <option value="portrait">Portrait Session</option>
@@ -125,6 +125,9 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { API_ENDPOINTS } from '../config';
+
 export default {
   data() {
     return {
@@ -142,24 +145,80 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       this.isSubmitting = true;
-      // Simulate async submission
-      setTimeout(() => {
-        alert('Form submitted!');
+      
+      try {
+        const form = new FormData();
+        form.append('name', this.formData.name);
+        form.append('email', this.formData.email);
+        form.append('phone', this.formData.phone || '');
+        form.append('service', this.formData.service);
+        form.append('date', this.formData.date || '');
+        form.append('message', this.formData.message || '');
+        
+        if (this.formData.video) {
+          form.append('video', this.formData.video);
+        }
+
+        console.log('Submitting inquiry...');
+
+        // Send to backend API
+        const response = await axios.post(API_ENDPOINTS.contact || `${API_ENDPOINTS.portfolio.replace('/portfolio', '/contact')}`, form, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          withCredentials: true
+        });
+
+        console.log('Response:', response);
+
+        if (response && (response.status === 200 || response.status === 201)) {
+          alert('Thank you! Your inquiry has been sent successfully. I will get back to you within 24 hours.');
+          this.resetForm();
+        } else {
+          alert('Message sent, but there was an issue. I will still receive it!');
+          this.resetForm();
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        
+        // Fallback: Open email client
+        this.openEmailClient();
+      } finally {
         this.isSubmitting = false;
-        this.formData = {
-          name: '',
-          email: '',
-          phone: '',
-          service: '',
-          date: '',
-          message: '',
-          video: null,
-          videoName: ''
-        };
-      }, 1000);
+      }
     },
+
+    openEmailClient() {
+      // Fallback: Open email client with pre-filled data
+      const subject = encodeURIComponent(`Photography Inquiry - ${this.formData.service}`);
+      const body = encodeURIComponent(
+        `Name: ${this.formData.name}\n` +
+        `Email: ${this.formData.email}\n` +
+        `Phone: ${this.formData.phone}\n` +
+        `Service: ${this.formData.service}\n` +
+        `Preferred Date: ${this.formData.date}\n\n` +
+        `Message:\n${this.formData.message}`
+      );
+      
+      window.location.href = `mailto:jking3509@gmail.com?subject=${subject}&body=${body}`;
+      
+      alert('Opening your email client. Please send the email to complete your inquiry.');
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.formData = {
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        date: '',
+        message: '',
+        video: null,
+        videoName: ''
+      };
+    },
+
     handleVideoUpload(event) {
       const file = event.target.files[0];
       if (file) {
@@ -201,6 +260,60 @@ export default {
   background: color-mix(in srgb, var(--card-bg) 85%, black 15%);
 }
 
+/* Service Type Dropdown - Extra Visible */
+.service-label {
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: #2563eb !important;
+  margin-bottom: 0.5rem !important;
+  display: block;
+}
+
+.service-select {
+  padding: 1rem 1.25rem !important;
+  border: 3px solid #2563eb !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+  color: #000000 !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15) !important;
+  max-width: 100% !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+.service-select:hover {
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+}
+
+.service-select:focus {
+  outline: none !important;
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+.service-select option {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: white !important;
+  color: #000000 !important;
+}
+
+.service-select option:disabled {
+  color: #9ca3af !important;
+  font-style: italic;
+}
+
+.service-select option:not(:disabled) {
+  color: #000000 !important;
+}
+
 /* Small screens: inputs become full-width for better layout */
 @media (max-width: 640px) {
   .input {
@@ -211,7 +324,6 @@ export default {
 }
  .contact-section {
   background: none;
-  min-height: 100vh;
   padding-top: 2rem;
   padding-bottom: 2rem;
   color: var(--text);
