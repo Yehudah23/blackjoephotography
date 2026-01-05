@@ -1,8 +1,9 @@
 // Centralized API configuration
 // In development, use proxy (empty string = same origin)
 // In production, use full URL from environment variable
+const backendPort = process.env.VUE_APP_BACKEND_PORT || '8001'
 const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? (process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000')
+  ? (process.env.VUE_APP_API_URL || `http://127.0.0.1:${backendPort}`)
   : (process.env.VUE_APP_API_URL || ''); // Empty = use proxy
 
 export const API_CONFIG = {

@@ -77,9 +77,6 @@ export default {
               </svg>
             </a>
           </div>
-          <button @click="toggleAdminMode" class="admin-btn">
-            Admin
-          </button>
         </nav>
         <button class="menu-toggle" @click="isMobileMenuOpen = !isMobileMenuOpen">
           <span v-if="isMobileMenuOpen">✖</span>
@@ -128,9 +125,6 @@ export default {
               </a>
             </div>
           </div>
-          <button @click="toggleAdminMode" class="admin-btn">
-            Admin
-          </button>
         </nav>
       </div>
 
