@@ -29,7 +29,7 @@ A Vue.js-based photography portfolio website for BlackJoe Photography. The site 
 **Main Dependencies**:
 - vue: ^3.2.13 - Progressive JavaScript framework
 - vue-router: ^4.0.13 - Official router for Vue.js
-- axios: ^1.11.0 - Promise-based HTTP client
+- firebase: Firebase Authentication, Firestore, and Storage client
 - core-js: ^3.8.3 - JavaScript polyfills
 
 **Development Dependencies**:

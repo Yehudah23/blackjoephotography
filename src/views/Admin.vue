@@ -119,8 +119,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_ENDPOINTS } from '../config';
+import {
+  deletePortfolio,
+  getPortfolio,
+  login as firebaseLogin,
+  logout as firebaseLogout,
+  updatePortfolio,
+  uploadPortfolio,
+  watchAuth
+} from '../firebase';
 
 export default {
   name: 'AdminPage',
@@ -161,7 +168,14 @@ export default {
   },
 
   mounted() {
-    this.checkSession();
+    this.unsubscribeAuth = watchAuth(user => {
+      this.loggedIn = Boolean(user);
+      if (user) this.fetchPortfolio();
+    });
+  },
+
+  beforeUnmount() {
+    if (this.unsubscribeAuth) this.unsubscribeAuth();
   },
 
   methods: {
@@ -179,57 +193,26 @@ export default {
       return new Blob([u8arr], { type: mime });
     },
 
-    checkSession() {
-      axios.get(API_ENDPOINTS.user, { withCredentials: true })
-        .then(() => {
-          this.loggedIn = true;
-          this.authError = '';
-          this.fetchPortfolio();
-        })
-        .catch(() => {
-          this.loggedIn = false;
-        });
-    },
-
-    login() {
+    async login() {
       this.authError = '';
       if (!this.password) {
         this.authError = 'Enter admin password.';
         return;
       }
 
-      const payload = { password: this.password };
-
-      axios.get(API_ENDPOINTS.csrfCookie, { withCredentials: true })
-        .then(() => {
-          return axios.post(API_ENDPOINTS.adminLogin, payload, { withCredentials: true });
-        })
-        .then(response => {
-          if ((response && response.status === 200) || (response.data && response.data.status === 200)) {
-            this.loggedIn = true;
-            this.authError = '';
-            this.checkSession();
-          } else {
-            this.authError = (response.data && response.data.msg) || 'Login failed';
-          }
-        })
-        .catch(error => {
-          console.error('Login error:', error);
-          if (error.response) {
-            // Server responded with error
-            this.authError = error.response.data?.message || error.response.data?.msg || `Login failed: ${error.response.status}`;
-          } else if (error.request) {
-            // Request made but no response (CORS/Network issue)
-            this.authError = 'Cannot connect to server. Check if backend is running and CORS is configured.';
-          } else {
-            this.authError = 'Login failed: ' + error.message;
-          }
-        });
+      try {
+        await firebaseLogin(this.password);
+        this.password = '';
+      } catch (error) {
+        console.error('Login error:', error);
+        this.authError = error.code === 'auth/invalid-credential'
+          ? 'Invalid admin password.'
+          : error.message;
+      }
     },
 
-    logout() {
-      axios.post(API_ENDPOINTS.adminLogout, {}, { withCredentials: true }).catch(() => {});
-      this.loggedIn = false;
+    async logout() {
+      await firebaseLogout().catch(() => {});
       this.password = '';
       this.uploadCategory = '';
       this.newImageUrl = '';
@@ -273,118 +256,48 @@ export default {
       console.log('Video selected:', file.name, file.size, 'bytes');
     },
 
-    addPhoto() {
+    async addPhoto() {
       if (!this.newImageUrl) { this.uploadError = 'Please upload an image.'; return; }
       if (!this.uploadCategory) { this.uploadError = 'Please choose a category.'; return; }
       this.uploadError = '';
       
       try {
-        const form = new FormData();
-        
-        // Use actual file if available, otherwise convert data URL to blob
-        if (this.selectedImageFile) {
-          form.append('file', this.selectedImageFile, this.selectedImageFile.name);
-          console.log('Uploading file:', this.selectedImageFile.name);
-        } else {
-          const blob = this.dataURLtoBlob(this.newImageUrl);
-          form.append('file', blob, `image_${Date.now()}.png`);
-          console.log('Uploading blob');
-        }
-        
-        form.append('category', this.uploadCategory);
-        form.append('title', this.uploadTitle || 'Uploaded Image');
-
-        console.log('Posting to:', API_ENDPOINTS.portfolio);
-
-        axios.post(API_ENDPOINTS.portfolio, form, { 
-          headers: { 'Content-Type': 'multipart/form-data' }, 
-          withCredentials: true 
-        })
-          .then(response => {
-            console.log('Upload response:', response);
-            if ((response && response.status === 200) || (response && response.status === 201) || (response.data && (response.data.status === 200 || response.data.status === 201))) {
-              this.newImageUrl = '';
-              this.selectedImageFile = null;
-              this.uploadTitle = '';
-              if (this.$refs.imageInput) this.$refs.imageInput.value = '';
-              alert('Image uploaded successfully!');
-              this.uploadError = '';
-              this.fetchPortfolio(); // Refresh the list
-            } else {
-              this.uploadError = (response.data && response.data.msg) || (response.data && response.data.message) || 'Upload failed';
-            }
-          })
-          .catch(error => {
-            console.error('Upload error:', error);
-            if (error.response) {
-              // Server responded with error
-              this.uploadError = `Upload failed: ${error.response.data?.message || error.response.data?.msg || error.response.statusText} (${error.response.status})`;
-            } else if (error.request) {
-              // Request made but no response
-              this.uploadError = 'No response from server. Check if backend is running and endpoint exists.';
-            } else {
-              this.uploadError = 'Upload failed: ' + error.message;
-            }
-          });
+        const file = this.selectedImageFile || this.dataURLtoBlob(this.newImageUrl);
+        await uploadPortfolio(file, {
+          category: this.uploadCategory,
+          title: this.uploadTitle || 'Uploaded Image',
+          description: ''
+        });
+        this.newImageUrl = '';
+        this.selectedImageFile = null;
+        this.uploadTitle = '';
+        if (this.$refs.imageInput) this.$refs.imageInput.value = '';
+        alert('Image uploaded successfully!');
+        this.fetchPortfolio();
       } catch (err) {
         console.error('Exception during upload:', err);
         this.uploadError = 'Upload failed: ' + err.message;
       }
     },
 
-    addVideo() {
+    async addVideo() {
       if (!this.newVideoUrl) { this.uploadError = 'Please upload a video.'; return; }
       if (!this.uploadCategory) { this.uploadError = 'Please choose a category.'; return; }
       this.uploadError = '';
       
       try {
-        const form = new FormData();
-        
-        // Use actual file if available, otherwise convert data URL to blob
-        if (this.selectedVideoFile) {
-          form.append('file', this.selectedVideoFile, this.selectedVideoFile.name);
-          console.log('Uploading file:', this.selectedVideoFile.name);
-        } else {
-          const blob = this.dataURLtoBlob(this.newVideoUrl);
-          form.append('file', blob, `video_${Date.now()}.mp4`);
-          console.log('Uploading blob');
-        }
-        
-        form.append('category', this.uploadCategory);
-        form.append('title', this.uploadTitle || 'Uploaded Video');
-
-        console.log('Posting to:', API_ENDPOINTS.portfolio);
-
-        axios.post(API_ENDPOINTS.portfolio, form, { 
-          headers: { 'Content-Type': 'multipart/form-data' }, 
-          withCredentials: true 
-        })
-          .then(response => {
-            console.log('Upload response:', response);
-            if ((response && response.status === 200) || (response && response.status === 201) || (response.data && (response.data.status === 200 || response.data.status === 201))) {
-              this.newVideoUrl = '';
-              this.selectedVideoFile = null;
-              this.uploadTitle = '';
-              if (this.$refs.videoInput) this.$refs.videoInput.value = '';
-              alert('Video uploaded successfully!');
-              this.uploadError = '';
-              this.fetchPortfolio(); // Refresh the list
-            } else {
-              this.uploadError = (response.data && response.data.msg) || (response.data && response.data.message) || 'Upload failed';
-            }
-          })
-          .catch(error => {
-            console.error('Upload error:', error);
-            if (error.response) {
-              // Server responded with error
-              this.uploadError = `Upload failed: ${error.response.data?.message || error.response.data?.msg || error.response.statusText} (${error.response.status})`;
-            } else if (error.request) {
-              // Request made but no response
-              this.uploadError = 'No response from server. Check if backend is running and endpoint exists.';
-            } else {
-              this.uploadError = 'Upload failed: ' + error.message;
-            }
-          });
+        const file = this.selectedVideoFile || this.dataURLtoBlob(this.newVideoUrl);
+        await uploadPortfolio(file, {
+          category: this.uploadCategory,
+          title: this.uploadTitle || 'Uploaded Video',
+          description: ''
+        });
+        this.newVideoUrl = '';
+        this.selectedVideoFile = null;
+        this.uploadTitle = '';
+        if (this.$refs.videoInput) this.$refs.videoInput.value = '';
+        alert('Video uploaded successfully!');
+        this.fetchPortfolio();
       } catch (err) {
         console.error('Exception during upload:', err);
         this.uploadError = 'Upload failed: ' + err.message;
@@ -393,22 +306,10 @@ export default {
 
     fetchPortfolio() {
       this.loading = true;
-      axios.get(API_ENDPOINTS.portfolio, { withCredentials: true })
-        .then(response => {
-          if (Array.isArray(response.data)) {
-            this.portfolio = response.data;
-          } else if (response.data && Array.isArray(response.data.data)) {
-            this.portfolio = response.data.data;
-          } else {
-            this.portfolio = [];
-          }
-          this.loading = false;
-        })
-        .catch(error => {
-          console.error('Fetch portfolio error:', error);
-          this.portfolio = [];
-          this.loading = false;
-        });
+      getPortfolio()
+        .then(items => { this.portfolio = items; })
+        .catch(error => { console.error('Fetch portfolio error:', error); this.portfolio = []; })
+        .finally(() => { this.loading = false; });
     },
 
     startEdit(item) {
@@ -438,21 +339,13 @@ export default {
 
       console.log('Updating item:', id, payload);
 
-      axios.put(`${API_ENDPOINTS.portfolio}/${id}`, payload, { withCredentials: true })
-        .then(response => {
-          console.log('Update response:', response);
-          if (response && (response.status === 200 || response.status === 204)) {
-            // Update local data
-            const index = this.portfolio.findIndex(item => item.id === id);
-            if (index !== -1) {
-              this.portfolio[index] = { ...this.portfolio[index], ...payload };
-            }
-            this.cancelEdit();
-            alert('Updated successfully!');
-            this.fetchPortfolio(); // Refresh to get server data
-          } else {
-            alert('Update failed: ' + (response.data?.message || 'Unknown error'));
-          }
+      updatePortfolio(id, payload)
+        .then(() => {
+          const index = this.portfolio.findIndex(item => item.id === id);
+          if (index !== -1) this.portfolio[index] = { ...this.portfolio[index], ...payload };
+          this.cancelEdit();
+          alert('Updated successfully!');
+          this.fetchPortfolio();
         })
         .catch(error => {
           console.error('Update error:', error);
@@ -473,16 +366,11 @@ export default {
 
       console.log('Deleting item:', id);
 
-      axios.delete(`${API_ENDPOINTS.portfolio}/${id}`, { withCredentials: true })
-        .then(response => {
-          console.log('Delete response:', response);
-          if (response && (response.status === 200 || response.status === 204)) {
-            // Remove from local data
-            this.portfolio = this.portfolio.filter(item => item.id !== id);
-            alert('Deleted successfully!');
-          } else {
-            alert('Delete failed: ' + (response.data?.message || 'Unknown error'));
-          }
+      const item = this.portfolio.find(portfolioItem => portfolioItem.id === id);
+      deletePortfolio(id, item && item.storagePath)
+        .then(() => {
+          this.portfolio = this.portfolio.filter(portfolioItem => portfolioItem.id !== id);
+          alert('Deleted successfully!');
         })
         .catch(error => {
           console.error('Delete error:', error);

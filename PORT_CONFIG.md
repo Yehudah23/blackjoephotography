@@ -1,19 +1,24 @@
-# Port Configuration Guide
+# Development Configuration Guide
 
 ## Current Setup
-- **Backend (Laravel)**: Port 8001
-- **Frontend (Vue)**: Auto-selects available port (8080, 8081, 8082, etc.)
+- **Backend services**: Firebase (no local backend or proxy)
+- **Frontend (Vue)**: Port 8080, or the next available port
 
-## How to Change Backend Port
+## Firebase configuration
 
-If your Laravel server runs on a different port, simply update the `.env` file:
+Copy `.env.example` to `.env` and add the Firebase Web app values from Project settings:
 
 ```bash
-# Edit .env file
-VUE_APP_BACKEND_PORT=8002  # Change to your Laravel port
+VUE_APP_FIREBASE_API_KEY=...
+VUE_APP_FIREBASE_AUTH_DOMAIN=...
+VUE_APP_FIREBASE_PROJECT_ID=...
+VUE_APP_FIREBASE_STORAGE_BUCKET=...
+VUE_APP_FIREBASE_MESSAGING_SENDER_ID=...
+VUE_APP_FIREBASE_APP_ID=...
+VUE_APP_FIREBASE_ADMIN_EMAIL=admin@example.com
 ```
 
-Then restart the Vue dev server:
+Restart the Vue dev server after changing environment values:
 ```bash
 npm run serve
 ```
@@ -21,8 +26,6 @@ npm run serve
 ## Port Auto-Detection
 
 ✅ **Vue Dev Server**: Automatically finds next available port if 8080 is busy
-✅ **Backend Proxy**: Reads port from VUE_APP_BACKEND_PORT environment variable
-
 ## Access Your App
 
 Always access through the Vue dev server URL shown in terminal:
@@ -31,12 +34,4 @@ App running at:
   - Local:   http://localhost:8081/  <-- Use this URL
 ```
 
-**DO NOT** access directly from Laravel server (port 8001) - this bypasses the proxy and causes 404 errors.
-
-## Troubleshooting
-
-If you get 404 on login:
-1. Check which port Laravel is running on (look for "PHP Development Server" message)
-2. Update `VUE_APP_BACKEND_PORT` in `.env` to match
-3. Restart Vue dev server: `npm run serve`
-4. Access app through Vue dev server URL (check terminal output)
+Firebase errors usually mean one of the environment values is missing or the Firebase Authentication, Firestore, or Storage service has not been enabled. See `FIREBASE_SETUP.md`.

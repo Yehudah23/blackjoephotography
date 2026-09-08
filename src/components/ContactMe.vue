@@ -125,8 +125,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_ENDPOINTS } from '../config';
+import { submitInquiry } from '../firebase';
 
 export default {
   data() {
@@ -149,35 +148,10 @@ export default {
       this.isSubmitting = true;
       
       try {
-        const form = new FormData();
-        form.append('name', this.formData.name);
-        form.append('email', this.formData.email);
-        form.append('phone', this.formData.phone || '');
-        form.append('service', this.formData.service);
-        form.append('date', this.formData.date || '');
-        form.append('message', this.formData.message || '');
-        
-        if (this.formData.video) {
-          form.append('video', this.formData.video);
-        }
-
         console.log('Submitting inquiry...');
-
-        // Send to backend API
-        const response = await axios.post(API_ENDPOINTS.contact || `${API_ENDPOINTS.portfolio.replace('/portfolio', '/contact')}`, form, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          withCredentials: true
-        });
-
-        console.log('Response:', response);
-
-        if (response && (response.status === 200 || response.status === 201)) {
-          alert('Thank you! Your inquiry has been sent successfully. I will get back to you within 24 hours.');
-          this.resetForm();
-        } else {
-          alert('Message sent, but there was an issue. I will still receive it!');
-          this.resetForm();
-        }
+        await submitInquiry(this.formData);
+        alert('Thank you! Your inquiry has been sent successfully. I will get back to you within 24 hours.');
+        this.resetForm();
       } catch (error) {
         console.error('Form submission error:', error);
         

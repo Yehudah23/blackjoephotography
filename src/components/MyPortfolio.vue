@@ -86,8 +86,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_ENDPOINTS } from '../config';
+import { getPortfolio } from '../firebase';
 
 export default {
   props: {
@@ -162,20 +161,12 @@ export default {
     },
 
     fetchPortfolio() {
-    axios.get(API_ENDPOINTS.portfolio, { withCredentials: true })
-      .then(response => {
-        if (Array.isArray(response.data)) {
-          this.portfolio = response.data;
-        } else if (response.data && Array.isArray(response.data.data)) {
-          this.portfolio = response.data.data;
-        } else {
+      getPortfolio()
+        .then(items => { this.portfolio = items; })
+        .catch(error => {
+          console.log('fetch portfolio error', error);
           this.portfolio = [];
-        }
-      })
-      .catch(error => {
-        console.log('fetch portfolio error', error && error.response ? error.response : error);
-        this.portfolio = [];
-      });
+        });
     }
   },
   mounted() {

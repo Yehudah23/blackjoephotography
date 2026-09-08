@@ -66,6 +66,7 @@ export default {
 
 /* Apply the flat-lay background to the page body so it shows behind all components */
 body {
+  margin: 0;
   background-image: url('./assets/flat-lay-camera-passport-arrangement (1).jpg');
   background-size: cover;
   background-position: center center;
