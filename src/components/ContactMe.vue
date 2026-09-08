@@ -63,7 +63,7 @@
           <div class="contact-info">
             <div><strong>📧 Email:</strong> jking3509@gmail.com</div>
             <div><strong>📞 Phone:</strong> (+234)8082787210</div>
-            <div><strong>📍 Location:</strong> Obanikoro Lagos State, Nigeria</div>
+            <div><strong>📍 Location:</strong> 8B Reeve Road, Ikoyi, Lagos</div>
             <div><strong>⏰ Response Time:</strong> Within 24 hours</div>
           </div>
 

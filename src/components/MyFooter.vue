@@ -30,7 +30,7 @@
           </div>
           <div class="contact-item">
             <span class="contact-icon">📍</span>
-            <span>Obanikoro Lagos State, Nigeria</span>
+            <span>8B Reeve Road, Ikoyi, Lagos</span>
           </div>
         </div>
 

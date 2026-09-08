@@ -42,7 +42,7 @@ export default {
     <div class="about-container">
       <div class="about-grid">
         <div class="about-profile">
-          <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=facearea&w=400&h=400&q=80" alt="Photographer" class="profile-img" />
+          <img src="/WhatsApp%20Image%202026-09-08%20at%2021.37.22.jpeg" alt="Joseph King, photographer" class="profile-img" />
           <h2 class="about-title">About Joseph King</h2>
           <div class="about-description">
             <p>
@@ -128,86 +128,96 @@ export default {
 </template>
 
 <style scoped>
- /* .about-section { */
-  /* background: url('@/assets/Joseph background.jpeg') ; */
-  /* background-color: black; */
-  /* width: 100%; */
-  /* background-size:1900px ; */
-  /* padding: 4rem 0 2rem 0; */
-  /* min-height: 100vh; */
-/* } */
+.about-section {
+  padding: 2rem 0 4rem;
+}
 .about-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 .about-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 2rem;
+  align-items: stretch;
 }
 .about-profile {
-  flex: 1 1 350px;
-  min-width: 320px;
-  max-width: 420px;
-  text-align: center;
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card-bg);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+  text-align: left;
 }
 .profile-img {
-  width: 140px;
-  height: 140px;
+  display: block;
+  width: 148px;
+  height: 148px;
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
-  border: 4px solid #2563eb;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+  border: 4px solid var(--accent);
 }
  .about-title {
-   font-size: 2.2rem;
+   font-size: clamp(1.8rem, 3vw, 2.35rem);
    font-weight: 900;
-   color: #fff;
-   margin-bottom: 1.2rem;
+   color: var(--text);
+   text-align: center;
+   margin: 0 0 1.2rem;
  }
  .about-description p {
-   color: #fff;
-   font-size: 1.08rem;
-   margin-bottom: 1rem;
-   line-height: 1.7;
+   color: var(--muted);
+   font-size: 1rem;
+   margin: 0 0 1rem;
+   line-height: 1.75;
  }
 .about-stats {
-  flex: 1 1 320px;
+  min-width: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.2rem;
+  gap: 1rem;
+  align-content: center;
 }
 .stat-card {
-  background: #ffffff98;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.07);
-  padding: 2rem 1.2rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  padding: 1.5rem 1.2rem;
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.14);
 }
 .stat-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
 }
 .stat-value {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 600;
-  color: #2563eb;
+  color: var(--accent);
 }
 .stat-label {
   font-size: 1rem;
-  color: #64748b;
+  color: var(--muted);
 }
 .about-services {
-  margin-top: 3.5rem;
+  margin-top: 2rem;
 }
 .services-title {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #2563eb;
+  color: var(--text);
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -217,7 +227,8 @@ export default {
   gap: 1.5rem;
 }
 .service-card {
-  background: #ffffffb9;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border);
   border-radius: 1rem;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,0.07);
   padding: 2rem 1.2rem;
@@ -226,10 +237,10 @@ export default {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #2563eb;
+  color: var(--text);
 }
 .service-desc {
-  color: #64748b;
+  color: var(--muted);
   font-size: 1rem;
 }
 
@@ -241,7 +252,7 @@ export default {
 .photographer-social h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -257,8 +268,8 @@ export default {
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text);
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -273,11 +284,25 @@ export default {
 }
 @media (max-width: 900px) {
   .about-grid {
-    flex-direction: column;
-    gap: 2.5rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  .about-profile, .about-stats {
-    max-width: 100%;
+  .about-stats {
+    align-content: stretch;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-container {
+    padding: 0 1rem;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: 120px;
   }
 }
 </style>

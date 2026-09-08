@@ -117,7 +117,7 @@ html.dark .logo-img { background: transparent !important; }
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--text);
-  margin-top: 60px;
+  margin-top: 96px;
   min-height: 100vh;
   background-image: none;
   transition: background-color 200ms ease, color 200ms ease;
@@ -126,6 +126,12 @@ html.dark .logo-img { background: transparent !important; }
 .dark-toggle { position: fixed; right: 16px; top: 16px; z-index: 9999; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 999px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(2,6,23,0.2); }
 
 .upload-card, .stat-card, .service-card { background: var(--card-bg) !important; }
+
+@media (min-width: 768px) {
+  #app {
+    margin-top: 112px;
+  }
+}
 
 </style>
 
