@@ -94,22 +94,7 @@ export default {
   },
   data() {
     return {
-      portfolio: [
-        {
-          id: '1',
-          title: 'Sarah & Michael Wedding',
-          category: 'Wedding',
-          imageUrl: 'https://images.unsplash.com/photo-1533091090875-1ff4acc497dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwcGhvdG9ncmFpaHxlbnwxfHx8fDE3NTcwNzY0ODh8MHw&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-          description: 'A beautiful summer wedding at Sunset Gardens'
-        },
-        {
-          id: '2',
-          title: 'Emma Portrait Session',
-          category: 'Portrait',
-          imageUrl: 'https://images.unsplash.com/photo-1544124094-8aea0374da93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb3J0cmFpdCUyMHBob3RvZ3JhcGh5fGVufDF8fHx8MTc1NzE0ODExNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-          description: 'Professional headshots for a rising artist'
-        }
-      ],
+      portfolio: [],
 
      
       selectedCategory: 'All',
