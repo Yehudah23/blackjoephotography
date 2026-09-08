@@ -7,7 +7,7 @@
           <h3 class="footer-title">BlackJoe Photography</h3>
           <p class="footer-tagline">Capturing moments that last forever</p>
         </div>
-        
+
         <div class="footer-links">
           <h4>Quick Links</h4>
           <nav>
@@ -17,7 +17,7 @@
             <button @click="scrollToSection('contact')" class="footer-link">Contact</button>
           </nav>
         </div>
-        
+
         <div class="footer-contact">
           <h4>Contact Info</h4>
           <div class="contact-item">
@@ -33,11 +33,11 @@
             <span>Obanikoro Lagos State, Nigeria</span>
           </div>
         </div>
-        
+
         <div class="footer-social">
           <h4>Follow Me</h4>
           <div class="social-icons">
-            <a href="https://www.instagram.com/themaskguyy?igsh=MTlhNDlidDVrcTg4dA==" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
+            <a href="https://www.instagram.com/blackjoefilms_?igsi=YTFxbmlrYmZtNXh2" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -51,12 +51,12 @@
                 <circle cx="4" cy="4" r="2"></circle>
               </svg>
             </a>
-            <a href="https://x.com/themaskguyy?s=21&t=c8EMCc3yV0fmzbKmLXyBLQ" target="_blank" rel="noopener noreferrer" class="social-icon" title="X">
+            <a href="https://x.com/themaskguyy?s=11&t=c8EMCc3yV0fmzbKmLXyBLQ" target="_blank" rel="noopener noreferrer" class="social-icon" title="X">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
               </svg>
             </a>
-            <a href="https://www.instagram.com/themaskguyy?igsh=MTlhNDlidDVrcTg4dA==" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
+            <a href="https://www.instagram.com/blackjoefilms_?igsi=YTFxbmlrYmZtNXh2" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
                 <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
@@ -70,11 +70,11 @@
           </div>
         </div>
       </div>
-      
+
       <div class="footer-bottom">
         <p>&copy; {{ currentYear }} BlackJoe Photography. All rights reserved.</p>
         <p>
-          <a href="#" class="footer-link-small">Privacy Policy</a> | 
+          <a href="#" class="footer-link-small">Privacy Policy</a> |
           <a href="#" class="footer-link-small">Terms of Service</a>
         </p>
       </div>

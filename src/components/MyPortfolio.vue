@@ -96,10 +96,10 @@ export default {
     return {
       portfolio: [],
 
-     
+
       selectedCategory: 'All',
 
-     
+
       categories: ['All', 'Wedding', 'Portrait', 'Nature', 'Street', 'Event', 'Videography']
     };
   },
@@ -115,9 +115,9 @@ export default {
       const websiteUrl = window.location.origin;
       const title = `Check out this amazing ${item.category.toLowerCase()} by BlackJoe Photography: ${item.title}`;
   const hashtags = 'photography,themaskguyy,portfolio';
-      
+
       let shareUrl = '';
-      
+
       switch(platform) {
         case 'linkedin':
           shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(websiteUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(title)}&source=${encodeURIComponent(window.location.hostname)}`;
@@ -129,11 +129,11 @@ export default {
           shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + websiteUrl)}`;
           break;
         case 'instagram':
-          
-          shareUrl = 'https://www.instagram.com/themaskguyy?igsh=MTlhNDlidDVrcTg4dA==';
+
+          shareUrl = 'https://www.instagram.com/blackjoefilms_?igsi=YTFxbmlrYmZtNXh2';
           break;
         case 'pinterest':
-          
+
           if (item.imageUrl) {
             shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(websiteUrl)}&media=${encodeURIComponent(item.imageUrl)}&description=${encodeURIComponent(title)}`;
           }
@@ -141,7 +141,7 @@ export default {
         default:
           return;
       }
-      
+
       window.open(shareUrl, '_blank', 'width=600,height=400');
     },
 
