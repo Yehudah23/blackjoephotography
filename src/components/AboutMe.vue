@@ -9,10 +9,10 @@ export default {
   data() {
     return {
       stats: [
-        { icon: '📷', value: '10,000+', label: 'Photos Taken' },
-        { icon: '😊', value: '500+', label: 'Happy Clients' },
-        { icon: '🏆', value: '15', label: 'Awards Won' },
-        { icon: '📅', value: '8', label: 'Years Experience' }
+        { icon: '📷', value: '20+', label: 'Photos Taken' },
+        { icon: '😊', value: '20+', label: 'Happy Clients' },
+        { icon: '🏆', value: '2', label: 'Awards Won' },
+        { icon: '📅', value: '3', label: 'Years Experience' }
       ],
       services: [
         {
@@ -46,10 +46,10 @@ export default {
           <h2 class="about-title">About Joseph King</h2>
           <div class="about-description">
             <p>
-              Hello! I'm Joseph King, a professional photographer and the founder of Blackjoe Photography and i'm currently based in Lagos State. I have a deep passion for capturing life's most beautiful moments through my lens.
+              Hello! I'm Joseph King, a professional photographer and Videographer and the founder of Blackjoe Photography and i'm currently based in Lagos State. I have a deep passion for capturing life's most beautiful moments through my lens.
             </p>
             <p>
-              With over 8 years of experience in professional photography, I specialize in capturing the authentic emotions and beautiful moments that make each event unique. My passion for storytelling through images drives me to create timeless memories for my clients.
+              With over 3 years of experience in professional photography and videography, I specialize in capturing the authentic emotions and beautiful moments that make each event unique. My passion for storytelling through images drives me to create timeless memories for my clients.
             </p>
             <p>
               From intimate portrait sessions to grand wedding celebrations, I bring a creative eye and technical expertise to every shoot. I believe that every photograph should tell a story and evoke emotion, whether it's the joy of a wedding day or the quiet beauty of a landscape.

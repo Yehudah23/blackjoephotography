@@ -45,7 +45,7 @@ export default {
             />
           </div>
           <div class="absolute -bottom-8 -right-8 bg-blue-600 text-white p-6 rounded-xl shadow-lg flex flex-col items-center w-48">
-            <div class="text-3xl font-bold mb-1">500+</div>
+            <div class="text-3xl font-bold mb-1">20+</div>
             <div class="text-base opacity-90">Happy Clients</div>
           </div>
         </div>

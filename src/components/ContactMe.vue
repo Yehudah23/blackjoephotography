@@ -127,6 +127,8 @@
 <script>
 import { submitInquiry } from '../firebase';
 
+const INQUIRY_EMAIL = 'jking3509@gmail.com';
+
 export default {
   data() {
     return {
@@ -174,7 +176,7 @@ export default {
         `Message:\n${this.formData.message}`
       );
 
-      window.location.href = `mailto:jking3509@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${subject}&body=${body}`;
 
       alert('Opening your email client. Please send the email to complete your inquiry.');
       this.resetForm();
