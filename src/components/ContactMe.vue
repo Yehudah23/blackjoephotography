@@ -1,10 +1,10 @@
 <template>
   <section id="contact" class="contact-section">
-    <div class="grid lg:grid-cols-2 gap-12">
+    <div class="contact-layout">
       <div class="contact-card">
         <h3 class="text-2xl font-bold mb-6 text-blue-700">Book a Session</h3>
         <form @submit.prevent="handleSubmit">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-row">
             <div>
               <label for="name">Full Name *</label>
               <input id="name" required v-model="formData.name" placeholder="Your full name" class="input" />
@@ -14,7 +14,7 @@
               <input id="email" type="email" required v-model="formData.email" placeholder="your@email.com" class="input" />
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-row">
             <div>
               <label for="phone">Phone Number</label>
               <input id="phone" type="tel" v-model="formData.phone" placeholder="(555) 123-4567" class="input" />
@@ -66,7 +66,7 @@
             <div><strong>📍 Location:</strong> Obanikoro Lagos State, Nigeria</div>
             <div><strong>⏰ Response Time:</strong> Within 24 hours</div>
           </div>
-          
+
           <div class="social-connect">
             <h4 class="text-lg font-semibold mt-4 mb-2">Connect With Me</h4>
             <div class="social-icons">
@@ -100,21 +100,21 @@
           <div>
             <h4>How far in advance should I book?</h4>
             <p>
-              For weddings, I recommend booking 6-12 months in advance. Portrait sessions 
+              For weddings, I recommend booking 6-12 months in advance. Portrait sessions
               can typically be scheduled 2-4 weeks ahead.
             </p>
           </div>
           <div>
             <h4>Do you travel for shoots?</h4>
             <p>
-              Yes! I'm available for destination weddings and shoots. Travel fees may apply 
+              Yes! I'm available for destination weddings and shoots. Travel fees may apply
               depending on the location.
             </p>
           </div>
           <div>
             <h4>What's included in your packages?</h4>
             <p>
-              All packages include professional editing, online gallery access, and 
+              All packages include professional editing, online gallery access, and
               high-resolution downloads. Specific inclusions vary by package type.
             </p>
           </div>
@@ -146,7 +146,7 @@ export default {
   methods: {
     async handleSubmit() {
       this.isSubmitting = true;
-      
+
       try {
         console.log('Submitting inquiry...');
         await submitInquiry(this.formData);
@@ -154,7 +154,7 @@ export default {
         this.resetForm();
       } catch (error) {
         console.error('Form submission error:', error);
-        
+
         // Fallback: Open email client
         this.openEmailClient();
       } finally {
@@ -173,9 +173,9 @@ export default {
         `Preferred Date: ${this.formData.date}\n\n` +
         `Message:\n${this.formData.message}`
       );
-      
+
       window.location.href = `mailto:jking3509@gmail.com?subject=${subject}&body=${body}`;
-      
+
       alert('Opening your email client. Please send the email to complete your inquiry.');
       this.resetForm();
     },
@@ -210,16 +210,35 @@ export default {
 <style scoped>
 /* Modern, friendly UI styles */
 .contact-section, .contact-card, .faq-block {
-  background-color: rgba(246, 246, 218, 0) ;
+  background-color: transparent;
+}
+.contact-section {
+  width: min(100% - 3rem, 1200px);
+  margin: 0 auto;
+}
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 2rem;
+  align-items: start;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.contact-card form > div > div,
+.contact-card form > div:not(.grid) {
+  min-width: 0;
 }
 /* Inputs: use theme card background and text variable to ensure visibility on page background */
 .input {
   display: block !important; /* ensure block, not flex */
-  width: auto;               /* don't stretch full width */
-  max-width: 420px;         /* comfortable input width on desktop */
-  min-width: 180px;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   padding: 0.55rem 0.75rem;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   margin-top: 0.25rem;
   margin-bottom: 0.75rem;
@@ -238,17 +257,17 @@ export default {
 .service-label {
   font-weight: 700 !important;
   font-size: 1.1rem !important;
-  color: #2563eb !important;
+  color: var(--text) !important;
   margin-bottom: 0.5rem !important;
   display: block;
 }
 
 .service-select {
   padding: 1rem 1.25rem !important;
-  border: 3px solid #2563eb !important;
+  border: 1px solid var(--accent) !important;
   border-radius: 0.5rem !important;
-  background: white !important;
-  color: #000000 !important;
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
   font-size: 1.125rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
@@ -275,8 +294,8 @@ export default {
   padding: 0.75rem;
   font-size: 1.1rem;
   font-weight: 600;
-  background: white !important;
-  color: #000000 !important;
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
 }
 
 .service-select option:disabled {
@@ -356,6 +375,24 @@ export default {
 .submit-btn:disabled {
   background: #94a3b8;
   cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .contact-section {
+    width: min(100% - 2rem, 760px);
+  }
+
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 
 .social-connect {

@@ -67,11 +67,17 @@ export default {
 /* Apply the flat-lay background to the page body so it shows behind all components */
 body {
   margin: 0;
+  background-color: var(--bg);
   background-image: url('./assets/flat-lay-camera-passport-arrangement (1).jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+html.dark body {
+  background-image: none;
+  background-color: var(--bg);
 }
 
 /* Additional dark-mode helpers to override inline / component colors when .dark is present */
@@ -86,11 +92,12 @@ html.dark .logo-img { background: transparent !important; }
 
 :root {
   --bg: #ffffff;
-  --surface: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.92);
   --text: #1f2937;
   --muted: #6b7280;
   --accent: #2563eb;
-  --card-bg: rgba(255,255,255,0.9);
+  --card-bg: rgba(255,255,255,0.94);
+  --border: rgba(15, 23, 42, 0.12);
 }
 
 :root.dark,
@@ -100,7 +107,8 @@ html.dark .logo-img { background: transparent !important; }
   --text: #e6eef8;
   --muted: #9aa6b2;
   --accent: #60a5fa;
-  --card-bg: rgba(255,255,255,0.04);
+  --card-bg: #111a24;
+  --border: rgba(226, 232, 240, 0.14);
 }
 
 #app {
@@ -115,13 +123,9 @@ html.dark .logo-img { background: transparent !important; }
   transition: background-color 200ms ease, color 200ms ease;
 }
 
-#app, #app * { color: var(--text) !important; }
+.dark-toggle { position: fixed; right: 16px; top: 16px; z-index: 9999; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 999px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(2,6,23,0.2); }
 
-.dark-toggle { position: fixed; right: 16px; top: 16px; z-index: 9999; background: var(--surface); color: var(--text); border: 1px solid rgba(255,255,255,0.06); padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 12px rgba(2,6,23,0.2); }
-
-.input { background: rgba(255,255,255,0.06) !important; color: var(--text) !important; border-color: rgba(255,255,255,0.08) !important; }
 .upload-card, .stat-card, .service-card { background: var(--card-bg) !important; }
-button, a { color: var(--accent) !important; }
 
 </style>
 

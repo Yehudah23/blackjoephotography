@@ -143,11 +143,10 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  background-color: transparent;
-  /* component-level background removed so App.vue flat-lay shows through */
+  background: var(--surface);
   color: var(--text);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
   z-index: 50;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04);
 }
@@ -283,8 +282,8 @@ export default {
   transform: translateY(-3px);
 }
 .menu-toggle {
-  background: #fff;
-  border: 1px solid #cbd5e1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
   padding: 0.5rem 0.8rem;
   border-radius: 0.5rem;
   font-size: 1.3rem;
@@ -296,7 +295,7 @@ export default {
   color: #fff;
 }
 .nav-mobile {
-  background: rgba(248, 250, 252, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   border-radius: 0.75rem;
   box-shadow: 0 4px 20px 0 rgba(0,0,0,0.15);
