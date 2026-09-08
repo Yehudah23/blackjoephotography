@@ -26,6 +26,10 @@ export default {
         {
           title: 'Event Photography',
           description: 'Corporate events, parties, graduations, and special celebrations documented with professional quality.'
+        },
+        {
+          title: 'Videography',
+          description: 'Capturing moments in motion, from promotional videos to event coverage, bringing your story to life.'
         }
       ]
     };
