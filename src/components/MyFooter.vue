@@ -87,7 +87,7 @@ export default {
   name: 'MyFooter',
   data() {
     return {
-      logoUrl: require('../assets/blackjoe logo.png'),
+      logoUrl: '/WhatsApp Image 2026-09-08 at 22.15.02.jpeg',
       currentYear: new Date().getFullYear()
     };
   },

@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       isMobileMenuOpen: false,
-      logoUrl: require('../assets/blackjoe logo.png'),
+      logoUrl: '/WhatsApp Image 2026-09-08 at 22.15.02.jpeg',
       newLogo: '',
       logoError: ''
     };
@@ -48,7 +48,7 @@ export default {
     <div class="header-container">
       <div class="flex justify-between items-center py-4">
         <div class="flex items-center gap-3">
-          <img :src="logoUrl" alt="" class="logo-img" />
+          <img :src="logoUrl" alt="BlackJoe Photography" class="logo-img" />
           <span class="brand-name">Blackjoe Photography</span>
         </div>
         <nav class="nav-desktop">
